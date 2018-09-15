@@ -93,7 +93,7 @@ public class UICtrl : MonoBehaviour {
 
         if (gameCtrl.isZisyaku)
         {
-            FindObjectOfType<SerialIO>().Battery25_OverDown(200);
+            FindObjectOfType<SerialIO>().BatteryUP_Zisyaku(200);
         }
     }
 

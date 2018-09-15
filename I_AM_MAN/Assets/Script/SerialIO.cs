@@ -47,8 +47,8 @@ public class SerialIO : MonoBehaviour {
             {
                 portZisyaku.Open();
                 portZisyaku.ReadTimeout = 1000;
-                Battery25_OverDown(200);
-                
+                //Battery25_OverDown(200);
+                BatteryUP_Zisyaku(200);
             }
 
         }

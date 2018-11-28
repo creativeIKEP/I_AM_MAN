@@ -14,6 +14,7 @@ public class Ranking : MonoBehaviour
 
     string table = "ranking";
     
+    
 
     public void SetPram(int num, float b, float t, int l)
     {
@@ -88,7 +89,7 @@ public class Ranking : MonoBehaviour
             }
             thisRank = currentRank + 1;
             ResetRank(currentRank + 1);
-            query = "insert int " + table + "(rank,score,battery,time) values(" + thisRank + "," + breakNum + "," + reminginBattery + "," + reminingTime + ")";
+            query = "insert into " + table + "(rank,score,battery,time) values(" + thisRank + "," + breakNum + "," + reminginBattery + "," + reminingTime + ")";
             sqlDB.ExecuteQuery(query);
             DisplayRanking();
             return;

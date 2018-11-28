@@ -4,9 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameCtrl : MonoBehaviour {
+    /*
     public bool isZisyaku;
     public bool isMasle;
     public bool isUH;
+    */
     public int gametime;
     public float obstacle_Rate;
     public GameObject[] genarratePos;
@@ -21,7 +23,6 @@ public class GameCtrl : MonoBehaviour {
     public GameObject scoreCanvaus;
     
 
-    int score;
     float time = 0;
     int reminingTime;
     float nextGenerateTime;
@@ -37,12 +38,13 @@ public class GameCtrl : MonoBehaviour {
     bool RankCalc = false;
     int gameLevel;
 
+
 	// Use this for initialization
 	void Start () {
         nextGenerateTime = obstacle_Rate;
         gameoverImage.SetActive(false);
-        Debug.Log("Masle is " + isMasle);
-        Debug.Log("UH is " + isUH);
+        //Debug.Log("Masle is " + isMasle);
+        //Debug.Log("UH is " + isUH);
 
         nextbeemTime = beemChargeTime;
         beemOKEff.SetActive(false);

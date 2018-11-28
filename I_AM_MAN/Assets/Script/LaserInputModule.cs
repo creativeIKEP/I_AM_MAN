@@ -16,6 +16,7 @@ public class LaserInputModule : BaseInputModule
     private PointerEventData[] pointEvents;
 
     public GameObject explainPanel;
+    public GameObject tutrialText;
     public GameObject level1Text;
     public GameObject level2Text;
     public GameObject level3Text;
@@ -51,6 +52,7 @@ public class LaserInputModule : BaseInputModule
         pointEvents = new PointerEventData[lasers.Length];
 
         //explainPanel.SetActive(false);
+        tutrialText.SetActive(false);
         level1Text.SetActive(false);
         level2Text.SetActive(false);
         level3Text.SetActive(false);
@@ -110,11 +112,19 @@ public class LaserInputModule : BaseInputModule
             // ヒットしたオブジェクトを保持
             hitObjects[index] = pointEvents[index].pointerCurrentRaycast.gameObject;
             base.HandlePointerExitAndEnter(pointEvents[index], hitObjects[index]);
-            
-            
-            if (hitObjects[index].name == "Text1")
+
+            if (hitObjects[index].name == "Text")
+            {
+                tutrialText.SetActive(true);
+                level1Text.SetActive(false);
+                level2Text.SetActive(false);
+                level3Text.SetActive(false);
+                EngButton.SetActive(true);
+            }
+            else if (hitObjects[index].name == "Text1")
             {
                 //explainPanel.SetActive(true);
+                tutrialText.SetActive(false);
                 level1Text.SetActive(true);
                 level2Text.SetActive(false);
                 level3Text.SetActive(false);
@@ -124,6 +134,7 @@ public class LaserInputModule : BaseInputModule
             else if (hitObjects[index].name == "Text2")
             {
                 //explainPanel.SetActive(true);
+                tutrialText.SetActive(false);
                 level2Text.SetActive(true);
                 level1Text.SetActive(false);
                 level3Text.SetActive(false);
@@ -132,12 +143,13 @@ public class LaserInputModule : BaseInputModule
             else if (hitObjects[index].name == "Text3")
             {
                 //explainPanel.SetActive(true);
+                tutrialText.SetActive(false);
                 level3Text.SetActive(true);
                 level1Text.SetActive(false);
                 level2Text.SetActive(false);
                 EngButton.SetActive(true);
             }
-            else if (hitObjects[index].name == "ExPanel" || hitObjects[index].name == "explainPanel" || hitObjects[index].name == "ExText1" || hitObjects[index].name == "ExText2" || hitObjects[index].name == "ExText3")
+            else if (hitObjects[index].name == "ExPanel" || hitObjects[index].name == "explainPanel" || hitObjects[index].name == "ExText1" || hitObjects[index].name == "ExText2" || hitObjects[index].name == "ExText3" || hitObjects[index].name == "tutrialText")
             {
 
             }
@@ -145,6 +157,7 @@ public class LaserInputModule : BaseInputModule
             else
             {
                 //explainPanel.SetActive(false);
+                tutrialText.SetActive(false);
                 level1Text.SetActive(false);
                 level2Text.SetActive(false);
                 level3Text.SetActive(false);

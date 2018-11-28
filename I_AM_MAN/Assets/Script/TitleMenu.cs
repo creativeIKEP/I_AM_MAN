@@ -5,73 +5,43 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TitleMenu : MonoBehaviour {
-    public GameObject titleObjects;
-    public GameObject GameObjects;
-
+    GameObject levelPanel;
+    GameStart gs;
     
-    // Use this for initialization
-    private void Awake()
+    void Start ()
     {
-        titleObjects.SetActive(true);
-        GameObjects.SetActive(false);
-    }
-    void Start () {
-        
+        levelPanel = GameObject.Find("levelSerect");
     }
 	
 	// Update is called once per frame
 	void Update () {
         
 	}
+
+    public void TutrialStart()
+    {
+        GameObject.Find("tutrialButton").SetActive(false);
+        FindObjectOfType<GameStart>().Tutrial_Start();
+    }
     
     public void Level1()
     {
-        GameStart();
-        FindObjectOfType<GameCtrl>().CashMoveSpeed(0.05f);
-        FindObjectOfType<GameCtrl>().SetGameLevel(1);
-        FindObjectOfType<WhichObstacle>().SetIsWhich(true);
-        MY_TrackedController[] controllers = FindObjectsOfType<MY_TrackedController>();
-        for(int i=0; i<controllers.Length; i++)
-        {
-            controllers[i].SetPanchSpeed(3);
-            controllers[i].SetBeemPower(15);
-            controllers[i].SetOnlyBeemMode(false);
-        }
+        gs = FindObjectOfType<GameStart>();
+        StartCoroutine(gs.Level1Start());
+        levelPanel.GetComponent<Canvas>().enabled = false;
     }
 
     public void Level2()
     {
-        GameStart();
-        FindObjectOfType<GameCtrl>().CashMoveSpeed(0.1f);
-        FindObjectOfType<GameCtrl>().SetGameLevel(2);
-        FindObjectOfType<WhichObstacle>().SetIsWhich(true);
-        MY_TrackedController[] controllers = FindObjectsOfType<MY_TrackedController>();
-        for (int i = 0; i < controllers.Length; i++)
-        {
-            controllers[i].SetPanchSpeed(5);
-            controllers[i].SetBeemPower(10);
-            controllers[i].SetOnlyBeemMode(true);
-        }
+        gs = FindObjectOfType<GameStart>();
+        StartCoroutine(gs.Level2Start());
+        levelPanel.GetComponent<Canvas>().enabled = false;
     }
 
     public void Level3()
     {
-        GameStart();
-        FindObjectOfType<GameCtrl>().CashMoveSpeed(0.3f);
-        FindObjectOfType<GameCtrl>().SetGameLevel(3);
-        FindObjectOfType<WhichObstacle>().SetIsWhich(true);
-        MY_TrackedController[] controllers = FindObjectsOfType<MY_TrackedController>();
-        for (int i = 0; i < controllers.Length; i++)
-        {
-            controllers[i].SetPanchSpeed(7);
-            controllers[i].SetBeemPower(5);
-            controllers[i].SetOnlyBeemMode(true);
-        }
-    }
-
-    void GameStart()
-    {
-        GameObjects.SetActive(true);
-        titleObjects.SetActive(false);
-    }
+        gs = FindObjectOfType<GameStart>();
+        StartCoroutine(gs.Level3Start());
+        levelPanel.GetComponent<Canvas>().enabled = false;
+    } 
 }

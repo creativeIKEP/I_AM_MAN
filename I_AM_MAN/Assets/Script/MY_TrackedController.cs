@@ -32,6 +32,8 @@ public class MY_TrackedController : MonoBehaviour
     int beemPower;
     bool isOnlyBeemMode;
 
+    SerialIO serial;
+
     void Start()
     {
         trackedController = gameObject.GetComponent<SteamVR_TrackedController>();
@@ -40,6 +42,7 @@ public class MY_TrackedController : MonoBehaviour
         device = SteamVR_Controller.Input((int)trackedObject.index);
         UH = FindObjectOfType<DemoScript>();
         gameCtrl = FindObjectOfType<GameCtrl>();
+        serial = FindObjectOfType<SerialIO>();
         chargeEff.SetActive(false);
 
         nowPos = transform.position;
@@ -186,13 +189,13 @@ public class MY_TrackedController : MonoBehaviour
     void BreakElect()
     {
         uiCtrl.DeltaBattery(15);
-        if (gameCtrl.isMasle) { FindObjectOfType<SerialIO>().BatteryUp_Masle(); }
-        if (gameCtrl.isZisyaku) { FindObjectOfType<SerialIO>().BatteryUP_Zisyaku((int)FindObjectOfType<UICtrl>().GetBatteryValue()); }
+        if (serial.isMasle) { FindObjectOfType<SerialIO>().BatteryUp_Masle(); }
+        if (serial.isZisyaku) { FindObjectOfType<SerialIO>().BatteryUP_Zisyaku((int)FindObjectOfType<UICtrl>().GetBatteryValue()); }
         StartCoroutine("Vive", (ushort)3999);
         ElectParticle.Play();
 
         //UnlimitedHand作動
-        if (FindObjectOfType<GameCtrl>().isUH) { UH.biribiri_(); }
+        if (serial.isUH) { UH.biribiri_(); }
     }
 
     IEnumerator Vive(ushort power)

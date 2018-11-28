@@ -15,10 +15,14 @@ public class SerialIO : MonoBehaviour {
     SerialPort portMasle;
     SerialPort portZisyaku;
 
+    public bool isZisyaku;
+    public bool isMasle;
+    public bool isUH;
+
 
     // Use this for initialization
     void Start () {
-        if (FindObjectOfType<GameCtrl>().isMasle)
+        if (isMasle)
         {
             portMasle = new SerialPort(comMasle, SerialSpeed);
             
@@ -30,12 +34,12 @@ public class SerialIO : MonoBehaviour {
             {
                 portMasle.Open();
                 portMasle.ReadTimeout = 1000;
-                Battery10_OverDown(200);
+                //Battery10_OverDown(200);
             }
             
         }
 
-        if (FindObjectOfType<GameCtrl>().isZisyaku)
+        if (isZisyaku)
         {
             portZisyaku = new SerialPort(comZisyaku, SerialSpeed);
 
@@ -47,8 +51,7 @@ public class SerialIO : MonoBehaviour {
             {
                 portZisyaku.Open();
                 portZisyaku.ReadTimeout = 1000;
-                //Battery25_OverDown(200);
-                BatteryUP_Zisyaku(200);
+                //BatteryUP_Zisyaku(200);
             }
 
         }
@@ -129,5 +132,19 @@ public class SerialIO : MonoBehaviour {
 
         portZisyaku.Write(byte1, 0, byte1.Length);
         Debug.Log("回復電磁石, "+dataStr);
+    }
+
+    private void OnApplicationQuit()
+    {
+        if (isMasle)
+        {
+            FindObjectOfType<SerialIO>().Battery10_OverDown(200);
+        }
+
+        if (isZisyaku)
+        {
+            FindObjectOfType<SerialIO>().BatteryUP_Zisyaku(200);
+        }
+        Debug.Log("masle&zisyaku send 200");
     }
 }

@@ -15,14 +15,19 @@ public class WhichObstacle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        starthendle();
         
+    }
+
+    public void starthendle()
+    {
+        camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
         rightp.GetComponent<Renderer>().material.SetColor("_TintColor", new Color(rightp.main.startColor.color.r, rightp.main.startColor.color.g, rightp.main.startColor.color.b, 0));
         leftp.GetComponent<Renderer>().material.SetColor("_TintColor", new Color(leftp.main.startColor.color.r, leftp.main.startColor.color.g, leftp.main.startColor.color.b, 0));
 
         leftp.Play();
         rightp.Play();
-        
     }
 
     // Update is called once per frame
@@ -49,24 +54,61 @@ public class WhichObstacle : MonoBehaviour {
 
             if (index >= 0 && !obstacles[index].GetIsVisibleCenter())
             {
+                
                 Vector3 obstPos = new Vector3(obstacles[index].gameObject.transform.position.x, 0, obstacles[index].gameObject.transform.position.z);
                 Vector3 camePos = new Vector3(camera.gameObject.transform.position.x, 0, camera.gameObject.transform.position.z);
                 Vector3 whichDirection = (obstPos - camePos).normalized;
 
+                
                 Vector3 cameRight = new Vector3(camera.transform.right.x, 0, camera.transform.right.z);
                 float angle = Vector3.Angle(cameRight.normalized, whichDirection);
-                if (angle <= 90)
+                
+                if (angle <= 90 && obstPos.x>=0)
                 {
+
                     //right
                     rightp.GetComponent<Renderer>().material.SetColor("_TintColor", new Color(rightp.main.startColor.color.r, rightp.main.startColor.color.g, rightp.main.startColor.color.b, 255));
                     whichSound.Play();
                 }
-                else
+                else if(angle>90 && obstPos.x<0)
                 {
                     //left
                     leftp.GetComponent<Renderer>().material.SetColor("_TintColor", new Color(leftp.main.startColor.color.r, leftp.main.startColor.color.g, leftp.main.startColor.color.b, 255));
                     whichSound.Play();
                 }
+                else
+                {
+                    
+                    if (camera.transform.forward.normalized.x > 0)
+                    {
+                        //left
+                        leftp.GetComponent<Renderer>().material.SetColor("_TintColor", new Color(leftp.main.startColor.color.r, leftp.main.startColor.color.g, leftp.main.startColor.color.b, 255));
+                        whichSound.Play();
+                    }
+                    else if(camera.transform.forward.normalized.x < 0)
+                    {
+                        //right
+                        rightp.GetComponent<Renderer>().material.SetColor("_TintColor", new Color(rightp.main.startColor.color.r, rightp.main.startColor.color.g, rightp.main.startColor.color.b, 255));
+                        whichSound.Play();
+                    }
+                    else
+                    {
+                        if (angle <= 90)
+                        {
+                            //right
+                            rightp.GetComponent<Renderer>().material.SetColor("_TintColor", new Color(rightp.main.startColor.color.r, rightp.main.startColor.color.g, rightp.main.startColor.color.b, 255));
+                            whichSound.Play();
+                        }
+                        else
+                        {
+                            //left
+                            leftp.GetComponent<Renderer>().material.SetColor("_TintColor", new Color(leftp.main.startColor.color.r, leftp.main.startColor.color.g, leftp.main.startColor.color.b, 255));
+                            whichSound.Play();
+                        }
+                    }
+                }
+
+                
             }
         }
 	}

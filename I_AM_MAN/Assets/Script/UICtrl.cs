@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UICtrl : MonoBehaviour {
     public Text timer;
+    public Text scoreText;
     public Image battery;
     GameCtrl gameCtrl;
     HeadMoveCalc headMoveCalc;
@@ -19,6 +20,10 @@ public class UICtrl : MonoBehaviour {
     float preBatteryvalue_Zisyaku;
 
     public SerialIO serial;
+
+    public Sprite blueBateryImage;
+    public Sprite redBatteryImage;
+    public Image timePanel;
 
     // Use this for initialization
     void Start () {
@@ -39,7 +44,12 @@ public class UICtrl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         int time = gameCtrl.GetReminingTime();
-        timer.text = "Time:"+time.ToString();
+        timer.text = "Time\n"+time.ToString();
+        float timeParcent = (float)time / gameCtrl.gametime;
+        timePanel.fillAmount = 1 - timeParcent;
+
+        int score = gameCtrl.breaknum;
+        scoreText.text = "Score:" + score.ToString();
 
         float headMove = headMoveCalc.GetHeadMoveDis();
         for(int i=0; i<handMovecalc.Length; i++) { headMove += handMovecalc[i].GetHandMoveDis(); }
@@ -57,8 +67,21 @@ public class UICtrl : MonoBehaviour {
             gameCtrl.GameEnd();
         }
 
+        if (batteryValue <= batteryUI_W * 0.3)
+        {
+            battery.sprite = redBatteryImage;
+            battery.rectTransform.sizeDelta = new Vector2(battery.rectTransform.rect.width, batteryUI_H/2);
+            battery.color = new Color(255, 0, 0);
+
+        }
+        else
+        {
+            battery.sprite = blueBateryImage;
+            battery.color = new Color(255, 255, 255);
+        }
+
         //Debug.Log(preBatteryvalue_Masle- batteryValue);
-        if ((preBatteryvalue_Masle - batteryValue) >= 10 && gameCtrl.isMasle)
+        if ((preBatteryvalue_Masle - batteryValue) >= 10 && serial.isMasle)
         {
             FindObjectOfType<SerialIO>().Battery10_OverDown((int)batteryValue);
             preBatteryvalue_Masle = batteryValue;
@@ -66,7 +89,7 @@ public class UICtrl : MonoBehaviour {
 
         
         //Debug.Log(preBatteryvalue_Zisyaku- batteryValue);
-        if ((preBatteryvalue_Zisyaku-batteryValue) >= 25 && gameCtrl.isZisyaku)
+        if ((preBatteryvalue_Zisyaku-batteryValue) >= 25 && serial.isZisyaku)
         {
             
             serial.Battery25_OverDown((int)batteryValue);
@@ -82,19 +105,6 @@ public class UICtrl : MonoBehaviour {
     public void ResetBattery()
     {
         batteryValue = batteryUI_W;
-    }
-
-    private void OnApplicationQuit()
-    {
-        if (gameCtrl.isMasle)
-        {
-            FindObjectOfType<SerialIO>().Battery10_OverDown(200);
-        }
-
-        if (gameCtrl.isZisyaku)
-        {
-            FindObjectOfType<SerialIO>().BatteryUP_Zisyaku(200);
-        }
     }
 
     public float GetBatteryValue()

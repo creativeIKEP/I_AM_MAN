@@ -1,5 +1,7 @@
 int switchPin2 = 7;
-int switchPin1 = 8;
+int switchPin1 = 8; //ホースつないでる方
+
+//HIGHが閉める
 
 //追加
 char data[3]="200";
@@ -31,6 +33,7 @@ void loop()
   if(Serial.available()>0){
     char inbyte=Serial.read();
     if(inbyte=='A'){BatteryUP();}
+    else if(inbyte=='L'){Lock_SendAirToMasle();}
     else{
       InData(inbyte);
       if(flag>2){
@@ -40,6 +43,14 @@ void loop()
       }
     }
   }
+}
+
+void Lock_SendAirToMasle(){
+  //電磁弁の不調対策
+  //ゲーム終了後、200で空気を開放してしばらくしてから、チューブにつないでる方を閉める
+    digitalWrite(switchPin1, HIGH);
+    digitalWrite(switchPin2, LOW);
+    Serial.println("lock");
 }
 
 void BatteryUP(){
@@ -54,14 +65,14 @@ void BatteryDown(){
   if(strcmp(data, "200")==0)
   {
     digitalWrite(switchPin1, HIGH);
-    digitalWrite(switchPin2, HIGH);
+    digitalWrite(switchPin2, LOW);
     delay(10000);
   }
   if(strcmp(data, "170")>0 && strcmp(data, "190")<=0)
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(3000);
+    delay(4000);
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
@@ -70,7 +81,7 @@ void BatteryDown(){
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(3000);
+    delay(4000);
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
@@ -79,7 +90,7 @@ void BatteryDown(){
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(3000);
+    delay(4000);
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
@@ -97,7 +108,7 @@ void BatteryDown(){
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(4000);
+    delay(5000);
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
@@ -106,7 +117,7 @@ void BatteryDown(){
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(4000); 
+    delay(5000); 
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
@@ -115,7 +126,7 @@ void BatteryDown(){
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(4000);
+    delay(5000);
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
@@ -124,7 +135,7 @@ if(strcmp(data, "045")>0 && strcmp(data, "060")<=0)
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(4000);
+    delay(5000);
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
@@ -133,7 +144,7 @@ if(strcmp(data, "045")>0 && strcmp(data, "060")<=0)
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(4000);
+    delay(5000);
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
@@ -142,7 +153,7 @@ if(strcmp(data, "045")>0 && strcmp(data, "060")<=0)
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(4000);
+    delay(5000);
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
@@ -160,7 +171,7 @@ if(strcmp(data, "045")>0 && strcmp(data, "060")<=0)
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(5000);
+    delay(6000);
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
@@ -169,7 +180,7 @@ if(strcmp(data, "045")>0 && strcmp(data, "060")<=0)
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(5000);
+    delay(6000);
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
@@ -178,7 +189,7 @@ if(strcmp(data, "045")>0 && strcmp(data, "060")<=0)
   {
     digitalWrite(switchPin1, LOW);
     digitalWrite(switchPin2, HIGH);
-    delay(5000);
+    delay(6000);
     digitalWrite(switchPin1, HIGH);
     digitalWrite(switchPin2, LOW);
   }
